@@ -77,5 +77,3 @@ Route::get('profile', [UserController::class, 'profile']);
 
 Route::post('addtocart', [FrontProductController::class, 'addtocart'])->middleware('customer');
 Route::get('remove-cart-item/{cartProductID}', [FrontProductController::class, 'RemoveCartItem'])->middleware('customer');
-
-
