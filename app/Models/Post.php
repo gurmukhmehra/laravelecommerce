@@ -9,8 +9,8 @@ class Post extends Model
     use HasFactory;
     public $timestamps = true;
 
-    public function categories()
+    public function category()
     {
-        return $this->belongsTo('App\Models\PostCategory','categories');
+        return $this->belongsToMany(PostCategory::class, 'categories', 'id');
     }
 }

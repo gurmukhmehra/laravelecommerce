@@ -1,4 +1,4 @@
-@extends('admin.app')
+@extends('Admin.app')
 @section('content')
     <div class="page-header">
         <div class="page-block">
@@ -39,10 +39,15 @@
                         <tbody>
                             @php $i = 1; @endphp
                             @foreach($posts as $post)
+                                @php 
+                                    $PostsCategory = unserialize($post->categories);
+                                    $getCats = DB::table('post_categories')->whereIn('id',$PostsCategory)->pluck('categoryName')->toArray();
+                                    $catNames = implode(', ', $getCats);
+                                @endphp
                                 <tr>
                                     <td class="text-center">{{$i}}</td>
                                     <td class="text-center">
-                                        @if(!empty($post->productImage))                                        
+                                        @if(!empty($post->postImage))                                        
                                             <img src="{{ URL::asset('uploads/posts_images/'.$post->postImage) }}" style="width: 50px;border-radius: 13px;" />
                                         @else 
                                          <img src="{{ URL::asset('uploads/No_Image_Available.jpg')}}" style="width: 50px;border-radius: 13px;"/>
@@ -54,14 +59,14 @@
                                     <td class="text-center">                                                                               
                                         {!! Str::limit($post->description, 50) !!}                                   
                                     </td>                                 
-                                    <td class="text-center"></td>
-                                    @if($posts->postStatus=='publish')
+                                    <td class="text-center">{{$catNames}}</td>
+                                    @if($post->postStatus=='publish')
                                         <td class="text-success">Publish</td>
                                     @else
                                         <td class="text-danger">Draft</td>
                                     @endif
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-success"><i class="feather mr-2 icon-edit"></i> Edit</a>
+                                        <a href="{{ url('admin/post/edit/'.$post->postSlug) }}" class="btn btn-success"><i class="feather mr-2 icon-edit"></i> Edit</a>
                                     </td>
                                 </tr>
                                 @php $i++; @endphp

@@ -15,4 +15,10 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\ProductCategory','productCategory');
     }
+
+    public function maintenanceAddon()
+    {
+        return $this->belongsTo('App\Models\MaintenanceAddon','maintenance_addon');
+    }
+
 }

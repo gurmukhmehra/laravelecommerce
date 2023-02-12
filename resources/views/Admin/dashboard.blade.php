@@ -1,4 +1,4 @@
-@extends('admin.app')
+@extends('Admin.app')
 @section('content')
     <div class="row">
         <div class="col-md-6 col-xl-3">

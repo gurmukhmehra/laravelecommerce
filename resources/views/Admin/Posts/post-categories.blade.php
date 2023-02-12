@@ -1,4 +1,4 @@
-@extends('admin.app')
+@extends('Admin.app')
 @section('content')
     <div class="page-header">
         <div class="page-block">
@@ -31,7 +31,6 @@
                                 <th class="text-center">Image</th>
                                 <th class="text-center">Category Name</th>
                                 <th class="text-center">Description</th>
-                                <th class="text-center">Product Count</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -50,14 +49,13 @@
                                     </td>
                                     <td class="text-center">{{$category->categoryName}}</td>
                                     <td class="text-center">{!! Str::limit($category->CategoryDescription, 50) !!}</td>
-                                    <td class="text-center">{{count($category->categoriesPosts)}}</td>
                                     @if($category->categoryStatus=='publish')
                                         <td class="text-success text-center">Publish</td>
                                     @else
                                         <td class="text-danger text-center">Draft</td>
                                     @endif
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-success"><i class="feather mr-2 icon-edit"></i> Edit</a>
+                                        <a href="{{ url('admin/posts/categories/edit/'.$category->categorySlug) }}" class="btn btn-success"><i class="feather mr-2 icon-edit"></i> Edit</a>
                                     </td>
                                 </tr> 
                                 @php $i++; @endphp                         

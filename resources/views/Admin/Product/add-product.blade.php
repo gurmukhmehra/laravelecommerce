@@ -1,4 +1,4 @@
-@extends('admin.app')
+@extends('Admin.app')
 @section('content')
     <div class="page-header">
         <div class="page-block">
@@ -49,8 +49,13 @@
                             <input type="text" name="ProductName" value="{{ old('ProductName') }}" required class="form-control" id="" placeholder="Product Name">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="">Quantity <sup class="text-danger" style="font-size:15px;">*</sup></label>
-                            <input type="number" min="1" name="quantity" value="{{ old('quantity') }}" required class="form-control" id="" placeholder="1">
+                            <label for="inputPassword4">Category</label>
+                            <select class="form-control" name="productCategory">
+                                <option value="">Choose</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->categoryName}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-row"> 
@@ -75,19 +80,29 @@
                             </div>
                         </div>                        
                     </div>
-                    <div class="form-row">          
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelectCategory">Category</label>
-                            </div>
-                            <select class="custom-select" name="productCategory" id="inputGroupSelectCategory">
-                                <option selected="">Choose...</option>
-                                @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->categoryName}}</option>
-                                @endforeach
-                            </select>
+
+                    <div class="form-row"> 
+                        <div class="form-group col-md-12">
+                            <label for="">Demo Link (Youtube URL)</label>
+                            <input type="text" value="" name="demo_link" class="form-control" id="demo_link" placeholder="">
+                        </div>                   
+                    </div>
+
+                    <div class="form-row"> 
+                        <div class="form-group col-md-4">
+                            <label for="">Play Store Link</label>
+                            <input type="text" value="" name="play_store_url" class="form-control" id="play_store_url" placeholder="">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="">Play Store Username</label>
+                            <input type="text" value="" name="play_username" class="form-control" id="play_username" placeholder="">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="">Play Store Password</label>
+                            <input type="text" value="" name="play_password" class="form-control" id="play_password" placeholder="">
                         </div>
                     </div>
+                    
                     <div class="form-row mt-3">
                         <label for="">Description <sup class="text-danger" style="font-size:15px;">*</sup></label>
                         <textarea class="form-control ckeditor" required id="" name="description" placeholder="Description">{{ old('description') }}</textarea>                        

@@ -1,4 +1,4 @@
-@extends('admin.app')
+@extends('Admin.app')
 @section('content')
     <div class="page-header">
         <div class="page-block">
@@ -50,8 +50,13 @@
                             <input type="text" name="ProductName" value="{{ $productDetail->ProductName }}" required class="form-control" id="" placeholder="Product Name">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="">Quantity <sup class="text-danger" style="font-size:15px;">*</sup></label>
-                            <input type="number" min="1" name="quantity" value="{{ $productDetail->quantity }}" required class="form-control" id="" placeholder="1">
+                            <label for="inputPassword4">Category</label>
+                            <select class="form-control" name="productCategory">
+                                <option value="">select</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}" @if($productDetail->productCategory==$category->id) selected @endif>{{$category->categoryName}} </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-row"> 
@@ -76,15 +81,29 @@
                             </div>
                         </div>                        
                     </div>
-                    <div class="form-row">          
-                        <label for="inputPassword4">Category</label>
-                        <select class="form-control" name="productCategory">
-                            <option value="">select</option>
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}" @if($productDetail->productCategory==$category->id) selected @endif>{{$category->categoryName}}</option>
-                            @endforeach
-                        </select>
+
+                    <div class="form-row"> 
+                        <div class="form-group col-md-12">
+                            <label for="">Demo Link (Youtube URL)</label>
+                            <input type="text" value="{{ $productDetail->demo_link }}" name="demo_link" class="form-control" id="demo_link" placeholder="">
+                        </div>                   
                     </div>
+
+                    <div class="form-row"> 
+                        <div class="form-group col-md-4">
+                            <label for="">Play Store Link</label>
+                            <input type="text" value="{{ $productDetail->play_store_url }}" name="play_store_url" class="form-control" id="play_store_url" placeholder="">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="">Play Store Username</label>
+                            <input type="text" value="{{ $productDetail->play_username }}" name="play_username" class="form-control" id="play_username" placeholder="">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="">Play Store Password</label>
+                            <input type="text" value="{{ $productDetail->play_password }}" name="play_password" class="form-control" id="play_password" placeholder="">
+                        </div>
+                    </div>
+                    
                     <div class="form-row mt-3">
                         <label for="">Description <sup class="text-danger" style="font-size:15px;">*</sup></label>
                         <textarea class="form-control ckeditor" required id="" name="description" placeholder="Description">{{ $productDetail->description }}</textarea>                        
@@ -92,7 +111,12 @@
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
                             <label for="">Image</label>
-                            <input type="file" class="form-control" id="" name="productImage">
+                            <input type="file" class="form-control mb-3" id="" name="productImage">
+                            @if(!empty($productDetail->productImage))                                        
+                                <img src="{{ URL::asset('uploads/product_images/'.$productDetail->productImage) }}" style="width: 50%;border-radius: 13px;" />
+                            @else 
+                                <img src="{{ URL::asset('uploads/No_Image_Available.jpg')}}" style="width: 50%;border-radius: 13px;"/>
+                            @endif
                         </div> 
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Status</label>

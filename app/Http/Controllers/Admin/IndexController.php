@@ -25,7 +25,7 @@ class IndexController extends Controller
                 return redirect('/');
             endif;
         else :            
-            return view('admin.login');
+            return view('Admin.login');
         endif;
     }
 
@@ -62,6 +62,6 @@ class IndexController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        return view('Admin.dashboard');
     }
 }

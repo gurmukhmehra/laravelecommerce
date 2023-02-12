@@ -10,8 +10,8 @@ class PostCategory extends Model
     use HasFactory;
     public $timestamps = true;
 
-    public function categoriesPosts()
+    public function posts()
     {
-        return $this->hasMany('App\Models\Post','categories');        
+        return $this->hasMany(Post::class, 'categories', 'id');        
     }
 }

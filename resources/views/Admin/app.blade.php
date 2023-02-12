@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Ecommerce</title>
+	<title>{{globalSetting('siteName')}}</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,8 +23,8 @@
                 <div class="loader-fill"></div>
             </div>
         </div>               
-        @include('admin.sidebar')        
-        @include('admin.header')    
+        @include('Admin.sidebar')        
+        @include('Admin.header')    
         <div class="pcoded-main-container">
             <div class="pcoded-content">
                 @yield('content')

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use App\Models\ProductCategory;
 use App\Models\Product;
+use App\Models\MaintenanceAddon;
+use App\Models\Feature;
+
 
 class ProductController extends Controller
 {
@@ -21,13 +24,13 @@ class ProductController extends Controller
     public function productList()
     {
         $productList = Product::with('category')->orderby('id','DESC')->paginate(10);       
-        return view('admin.Product.product-list',compact('productList'));
+        return view('Admin.Product.product-list',compact('productList'));
     }
 
     public function addProduct()
     {
         $categories = ProductCategory::where('categoryStatus','publish')->orderBy('id','DESC')->get();
-        return view('admin.Product.add-product',compact('categories'));
+        return view('Admin.Product.add-product',compact('categories'));
     }
 
     public function SaveProduct(Request $request)
@@ -36,7 +39,6 @@ class ProductController extends Controller
         $inputs = Request::all();
         $rule=array(
             'ProductName' => 'required|unique:products',
-            'quantity' => 'required',
             'product_price' => 'required',
             'description' => 'required',
             'productImage' => 'mimes:png,jpg,jpeg|max:2048'                      		        	        
@@ -54,12 +56,18 @@ class ProductController extends Controller
         $product = new Product;
         $product->ProductName = $inputs['ProductName'];
         $product->ProductSlug = Str::slug($inputs['ProductName']);        
-        $product->quantity = $inputs['quantity'];
+        $product->quantity = 1;
         $product->product_price = $inputs['product_price'];
         $product->product_sale_price = $inputs['product_sale_price'];
         $product->productCategory = $inputs['productCategory'];
         $product->description = $inputs['description'];
         $product->productStatus = $inputs['productStatus'];
+
+        $product->demo_link = $inputs['demo_link'];
+        $product->play_store_url = $inputs['play_store_url'];
+        $product->play_username = $inputs['play_username'];
+        $product->play_password = $inputs['play_password'];
+
         if(!empty($inputs['productImage'])):                     
             $file= $inputs['productImage'];
             $filename= $file->getClientOriginalName();
@@ -76,7 +84,7 @@ class ProductController extends Controller
         if($checkProduct>0):
             $categories = ProductCategory::where('categoryStatus','publish')->orderBy('id','DESC')->get();
             $productDetail = Product::where('ProductSlug',$ProductSlug)->first();
-            return view('admin.Product.edit-product',compact('productDetail','categories'));
+            return view('Admin.Product.edit-product',compact('productDetail','categories'));
         else:
             return redirect('admin/product-list');
         endif;
@@ -90,7 +98,6 @@ class ProductController extends Controller
         if($checkproduct>0):
             $rule=array(
                 'ProductName' => 'required|unique:products,id,'.$inputs['id'],
-                'quantity' => 'required',
                 'product_price' => 'required',
                 'description' => 'required',
                 'productImage' => 'mimes:png,jpg,jpeg|max:2048'                      		        	        
@@ -102,13 +109,18 @@ class ProductController extends Controller
             }                
             $product = Product::where('id',$inputs['id'])->first();
             $product->ProductName = $inputs['ProductName'];
-            $product->ProductSlug = Str::slug($inputs['ProductName']);        
-            $product->quantity = $inputs['quantity'];
+            $product->ProductSlug = Str::slug($inputs['ProductName']);
             $product->product_price = $inputs['product_price'];
             $product->product_sale_price = $inputs['product_sale_price'];
             $product->productCategory = $inputs['productCategory'];
             $product->description = $inputs['description'];
             $product->productStatus = $inputs['productStatus'];
+
+            $product->demo_link = $inputs['demo_link'];
+            $product->play_store_url = $inputs['play_store_url'];
+            $product->play_username = $inputs['play_username'];
+            $product->play_password = $inputs['play_password'];
+
             if(!empty($inputs['productImage'])):                     
                 $file= $inputs['productImage'];
                 if(!empty($product->ProductSlug)):
@@ -130,12 +142,12 @@ class ProductController extends Controller
     public function categoriesList()
     {
         $categoryList = ProductCategory::with('ProductByCategory')->orderBy('id','DESC')->paginate(10);        
-        return view('admin.Product.categories-list',compact('categoryList'));
+        return view('Admin.Product.categories-list',compact('categoryList'));
     }
 
     public function addCategory()
     {
-        return view('admin.Product.add-category');
+        return view('Admin.Product.add-category');
     }
 
     public function saveCategory(Request $request)
@@ -171,7 +183,7 @@ class ProductController extends Controller
         $checkCategory = ProductCategory::where('categorySlug',$categorySlug)->count();
         if($checkCategory>0):
             $categoryDetail = ProductCategory::where('categorySlug',$categorySlug)->first();
-            return view('admin.Product.edit-category',compact('categoryDetail'));
+            return view('Admin.Product.edit-category',compact('categoryDetail'));
         else:
             return redirect('admin/categories-list');
         endif;
@@ -212,8 +224,72 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Update successfully.');
         else:
             return redirect('admin/categories-list');
-        endif;
-        
+        endif;        
+    }
+
+    public function MaintenanceAddon()
+    {
+        $maintenanceAddons = MaintenanceAddon::with('ProductMaintenanceAddon')->orderBy('id','DESC')->paginate(10);
+        return view('Admin.Maintenance_addon.maintenance-addon',compact('maintenanceAddons'));
+    }
+
+    public function AddMaintenanceAddon()
+    {
+        return view('Admin.Maintenance_addon.add-maintenance-addon');
+    }
+
+    public function SaveMaintenanceAddon(Request $request)
+    {
+        $data =  Request::except(array('_token')) ;        
+        $inputs = Request::all();
+        $rule=array(
+            'maintenance_addon' => 'required|unique:maintenance_addons',
+            'addon_price' => 'required'                      		        	        
+        );
+        $validator = \Validator::make($data,$rule); 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->messages());
+        }
+
+        $MaintenanceAddon = new MaintenanceAddon;
+        $MaintenanceAddon->maintenance_addon = $inputs['maintenance_addon'];
+        $MaintenanceAddon->addon_price = $inputs['addon_price'];
+        $MaintenanceAddon->save();
+        return redirect()->back()->with('success', 'Update successfully.');
+
+    }
+
+    public function featuresList()
+    {
+        $featuresList = Feature::orderby('id','DESC')->paginate(10);
+        return view('Admin.Features.product-features',compact('featuresList'));
+    }
+
+    public function AddFeatures()
+    {
+        return view('Admin.Features.add-product-features');
+    }
+
+    public function SaveFeatures(Request $request)
+    {
+        $data =  Request::except(array('_token')) ;        
+        $inputs = Request::all();
+        $rule=array(
+            'featureName' => 'required|unique:features',
+            'featurePrice' => 'required'                      		        	        
+        );
+        $validator = \Validator::make($data,$rule); 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->messages());
+        }
+
+        $feature = new Feature;
+        $feature->featureName = $inputs['featureName'];
+        $feature->featurePrice = $inputs['featurePrice'];
+        $feature->save();
+        return redirect()->back()->with('success', 'Update successfully.');
     }
 
 }

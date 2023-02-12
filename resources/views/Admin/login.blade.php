@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Admin Login</title>
+	<title>{{globalSetting('siteName')}} : Admin Login</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -49,6 +49,7 @@
 								<input type="password" name="password" class="form-control" placeholder="Password">
 							</div>						
 							<button type="submit" class="btn btn-block btn-primary mb-4">Sign in</button>
+							<a href="{{URL::to('/')}}" class="btn btn-block btn-info mb-4 text-white">Back To Site</a>
 						{{ Form::close() }}
 						<p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p>
 					</div>
