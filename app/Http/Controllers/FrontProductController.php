@@ -49,8 +49,6 @@ class FrontProductController extends Controller
         foreach($array as $key => $item):
             if($cartProductID==$item['productID']):
                 $idx = $key;
-                // Session::forget('cart');
-                // Session::push('cart',$cartdata);
             endif;
         endforeach;
 
@@ -62,9 +60,45 @@ class FrontProductController extends Controller
         foreach($newarray as $newarray1)
         {
             Session::push('cart',$newarray1);
-        }
-        
+        }        
         $cartdata=Session::get('cart');
         return view('Frontend.ajax-cart-load',compact('cartdata'));
+    }
+
+    public function cartPage()
+    {
+        $cartdata=Session::get('cart');
+        return view('Frontend.cart-page',compact('cartdata'));
+    }
+
+    public function RemoveItemCartPage($CartItemProductID)
+    {
+        $array=array();
+        $newarray=array();
+        $array=Session::get('cart');        
+        foreach($array as $key => $item):
+            if($CartItemProductID==$item['productID']):
+                $idx = $key;
+            endif;
+        endforeach;
+
+        unset($array[$idx]);
+
+        $newarray = $array;
+        Session::forget("'".$CartItemProductID."'");
+        Session::forget('cart');
+        foreach($newarray as $newarray1)
+        {
+            Session::push('cart',$newarray1);
+        }        
+        $cartdata=Session::get('cart');
+        
+        return view('Frontend.remove-cart-page-item',compact('cartdata'));
+    }
+
+    public function checkout()
+    {
+        $cartdata=Session::get('cart');        
+        return view('Frontend.checkout-page',compact('cartdata'));
     }
 }

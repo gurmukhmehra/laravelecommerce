@@ -533,7 +533,7 @@ select {
 	position: relative
 }
 
-.remove-icon {
+.remove-icon, .remove-icon-cartPage{
 	position: absolute;
 	right: 0;
 	top: 0;

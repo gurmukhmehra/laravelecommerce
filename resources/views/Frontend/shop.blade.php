@@ -65,7 +65,7 @@
                                             @endif
                                             
                                         </span>
-                                        <a class="btn btn-primary" href="{{ URL::to('product-detail/'.$product->ProductSlug) }}">Add to Cart</a>
+                                        <a class="btn btn-primary" href="{{ URL::to('product-detail/'.$product->ProductSlug) }}">View Detail</a>
                                     </a>
                                     <div class="product-icon">
                                         <a href="{{ URL::to('product-detail/'.$product->ProductSlug) }}">

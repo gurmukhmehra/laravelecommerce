@@ -45,8 +45,8 @@
                                 <span><strong>Total Price: </strong>${{$cartTotal}} </span>
                             </div>
                             <div class="buttons">
-                                <a class="btn btn-primary cart-button" href="#">View Cart</a>
-                                <a class="btn btn-primary" href="#">Checkout</a>
+                                <a class="btn btn-primary cart-button" href="{{URL::to('/cart')}}">View Cart</a>
+                                <a class="btn btn-primary" href="{{URL::to('/checkout')}}">Checkout</a>
                             </div>
                         @else 
                             <h6 class="text-danger text-center cartempty">Empty cart</h4>

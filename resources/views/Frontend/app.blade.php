@@ -77,9 +77,11 @@
             },
             complete: function () {              
             }
-        });
-        
+        });        
       });
+      setTimeout(function() {
+          $('.message').slideUp("slow");
+      }, 3000);
  		});
 	</script>
   
